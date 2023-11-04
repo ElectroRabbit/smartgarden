@@ -5,7 +5,7 @@
 
 Este repositorio de GitHub contiene el código fuente y la documentación para un sistema de IoT (Internet de las cosas) diseñado para monitorear y automatizar el riego de plantas de hogar.
 
-![Planta de interior](Dashboard.png)
+![Planta de interior](docs/Dashboard.png)
 
 ## Funcionalidades principales
 * Monitoreo en tiempo real: El sistema permite monitorear el estado de tus plantas en tiempo real. Puedes verificar la humedad del suelo, la temperatura ambiente y la humedad relativa desde cualquier lugar.
