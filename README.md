@@ -1,9 +1,11 @@
-# Sistema de IoT para Monitoreo y Automatización de Riego para Plantas de Hogar
+# SmartGarden: Prototipo de IoT para Monitoreo y Automatización de Riego para Plantas de Hogar
 [![Badge Licencia](https://img.shields.io/badge/Licencia-MIT-yellow)](https://github.com/ElectroRabbit/smartgarden/blob/main/LICENSE)
 [![Badge en Desarrollo](https://img.shields.io/badge/Estado-En_desarrollo-green)](https://github.com/ElectroRabbit/smartgarden)
 [![Badge Ultimo Update](https://img.shields.io/badge/Ultimo_update-Noviembre-blue)](https://github.com/ElectroRabbit/smartgarden)
 
 Este repositorio de GitHub contiene el código fuente y la documentación para un sistema de IoT (Internet de las cosas) diseñado para monitorear y automatizar el riego de plantas de hogar.
+
+![Planta de interior](Dashboard.png)
 
 ## Funcionalidades principales
 * Monitoreo en tiempo real: El sistema permite monitorear el estado de tus plantas en tiempo real. Puedes verificar la humedad del suelo, la temperatura ambiente y la humedad relativa desde cualquier lugar.
@@ -19,7 +21,7 @@ Este repositorio de GitHub contiene el código fuente y la documentación para u
 ## Configuración del repositorio
 ### Estructura del directorio
 * /docs: Contiene documentación detallada sobre el sistema, incluyendo instrucciones de instalación y configuración.
-* /src: Aquí encontrarás el código fuente del microcontrolador en C++.
+* /src: Aquí encontrarás el código fuente del microcontrolador NodeMCU en C++.
 * /web: Aquí encontrarás el código fuente de la página web en JAVA.
 * /hardware: Información sobre los componentes de hardware utilizados en el proyecto, incluyendo esquemas y especificaciones.
 * /broker: Código y configuración del servidor Ubuntu Server y el broker MQTT EMQX.
@@ -34,5 +36,5 @@ Las instrucciones detalladas para configurar y utilizar el sistema se encuentran
 Este proyecto se encuentra bajo la licencia MIT, lo que significa que puedes utilizar, modificar y distribuir el código de acuerdo con los términos de dicha licencia.
 
 ## Contacto
-Si tienes preguntas, sugerencias o comentarios, no dudes en contactarnos a través de la sección de problemas (issues) o mediante correo electrónico en robertoignaciovargas@gmail.com.
-¡Esperamos que este sistema de IoT para el monitoreo y automatización de riego de plantas de hogar te ayude a mantener tus plantas felices y saludables!
+Si tienes preguntas, sugerencias o comentarios, puedes contactarme mediante correo electrónico a robertoignaciovargas@gmail.com.
+¡Espero que este sistema de IoT te ayude como inspiración o guía en tus futuros proyectos!
