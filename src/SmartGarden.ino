@@ -35,12 +35,12 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 DHT dht(D3, DHT11);  //Se inicia el sensor en el puerto digital D3
 
-float temperaturaAmbiente; //Iniciar variable de temperatura del ambiente.
-int humedadAmbiente;  //Iniciar variable de humedad del ambiente.
-int nivelAgua, nivelAguaPorcentaje;        //Iniciar variables de nivel de agua en bruto y porcentaje.
-int nivelLuz;                              //Iniciar variable de sensor de luz (0 - 1);
-int humedadSuelo;                          //Iniciar variable de nivel de humedad del suelo.
-Ticker tic_WifiLed;                        //Iniciar el objeto ticker con nombre tic_WifiLed;
+float temperaturaAmbiente;                                   //Iniciar variable de temperatura del ambiente.
+int humedadAmbiente;                                         //Iniciar variable de humedad del ambiente.
+int nivelAgua, nivelAguaPorcentaje, humedadSueloPorcentaje;  //Iniciar variables de nivel de agua en bruto y porcentaje.
+int nivelLuz;                                                //Iniciar variable de sensor de luz (0 - 1);
+int humedadSuelo;                                            //Iniciar variable de nivel de humedad del suelo.
+Ticker tic_WifiLed;                                          //Iniciar el objeto ticker con nombre tic_WifiLed;
 
 //Información para conectar el WiFi
 String ssidWiFi = "SmartGarden IoT";
@@ -130,7 +130,10 @@ void loop() {
   //Leemos el nivel del agua
   nivelAgua = leerNivelAgua();
   //Nivel de agua en porcentaje
-  nivelAguaPorcentaje = map(nivelAgua, 400, 12, 100, 0);  //Nivel de agua analogo a porcentaje
+  //nivelAguaPorcentaje = map(nivelAgua, 400, 12, 100, 0);  //Nivel de agua analogo a porcentaje comentado dado que sensor se quemo
+
+  //Emulamos el nivel de agua a 70%
+  nivelAguaPorcentaje = 70;
 
   //Solucionamos lecturas erroneas
   if (nivelAguaPorcentaje <= 1) {
@@ -143,8 +146,10 @@ void loop() {
   //Leemos el nivel de humedad del suelo
   humedadSuelo = leerNivelHumedad();
 
-  if (humedadSuelo <= 1) {
-    humedadSuelo = 0;
+  humedadSueloPorcentaje = map(humedadSuelo, 260, 910, 100, 0);
+
+  if (humedadSueloPorcentaje <= 5) {
+    humedadSueloPorcentaje = 0;
   }
 
   //Mostramos toda la información obtenida por puerto serial
@@ -154,6 +159,7 @@ void loop() {
   //Serial.println("Porcentaje Nivel de Agua: " + String(nivelAguaPorcentaje) + "%");
   //Serial.println("LDR: " + String(nivelLuz));
   //Serial.println("Humedad Suelo: " + String(humedadSuelo));
+  //Serial.println("Humedad Suelo %: " + String(humedadSueloPorcentaje));
   //Serial.println("-----------------------------------");
 
   if (!mqttClient.connected()) {
@@ -161,14 +167,14 @@ void loop() {
   }
 
   //Publicamos los datos en el Servidor MQTT
-  mqttClient.publish("/devices/IPST_001/temp", String(temperaturaAmbiente).c_str());     //Temperatura
-  mqttClient.publish("/devices/IPST_001/humAm", String(humedadAmbiente).c_str());        //Humedad
-  mqttClient.publish("/devices/IPST_001/nvlAgua", String(nivelAguaPorcentaje).c_str());  //Nivel de Agua en %
-  mqttClient.publish("/devices/IPST_001/nvlLuz", String(nivelLuz).c_str());              //Estado Luz
-  mqttClient.publish("/devices/IPST_001/humSu", String(humedadSuelo).c_str());           //Humedad de Suelo
+  mqttClient.publish("/devices/IPST_001/temp", String(temperaturaAmbiente).c_str());      //Temperatura
+  mqttClient.publish("/devices/IPST_001/humAm", String(humedadAmbiente).c_str());         //Humedad
+  mqttClient.publish("/devices/IPST_001/nvlAgua", String(nivelAguaPorcentaje).c_str());   //Nivel de Agua en %
+  mqttClient.publish("/devices/IPST_001/nvlLuz", String(nivelLuz).c_str());               //Estado Luz
+  mqttClient.publish("/devices/IPST_001/humSu", String(humedadSueloPorcentaje).c_str());  //Humedad de Suelo
 
   //Publicmaos los datos en el Servidor Web para su persistencia
-  enviarDatosBBDD(temperaturaAmbiente, humedadAmbiente, humedadSuelo, nivelLuz, nivelAguaPorcentaje);
+  //enviarDatosBBDD(temperaturaAmbiente, humedadAmbiente, humedadSueloPorcentaje, nivelLuz, nivelAguaPorcentaje);
 
   //Evaluamos el nivel del agua
   if (nivelAguaPorcentaje <= 10) {
@@ -178,7 +184,8 @@ void loop() {
 
   //Para regar, primero revisamos el nivel
   if (nivelAguaPorcentaje >= 30) {
-    if (humedadSuelo >= 700) {
+    //Si el nivel de humedad de suelo es menor al 30% y tenemos agua en el deposito, comienza el riego
+    if (humedadSueloPorcentaje <= 30) {
       Serial.println("La tierra está seca, comienza el riego automático");
 
       display.clearDisplay();
@@ -190,7 +197,7 @@ void loop() {
       display.display();
 
       activarBomba();
-      delay(2000);
+      delay(10000);
       desactivarBomba();
       delay(1000);
 
@@ -202,7 +209,8 @@ void loop() {
     }
   }
 
-  delay(60000);  // Espera 60s
+  //delay(60000);  // Espera de 1 minuto por cada envío de datos
+  delay(2500);
 }
 
 //Funcion para conectar el WiFi
@@ -254,7 +262,7 @@ boolean conectarBrokerMQTT() {
 }
 
 //Función que mediante POST envía los datos a la página web y esta los almacena en la base de datos
-void enviarDatosBBDD(int tA, int hA, int hS, int nL, int nA) {
+void enviarDatosBBDD(float tA, int hA, int hS, int nL, int nA) {
   //Mientras estemos conectados al WiFi se iniciará la función, caso contrario no se activará el envío de datos
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;  // Creamos el objeto HTTP
