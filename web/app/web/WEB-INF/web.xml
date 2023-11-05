@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>mainController</servlet-name>
+        <servlet-class>cl.smartgarden.web.controllers.mainController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadDevices</servlet-name>
+        <servlet-class>cl.smartgarden.web.controllers.loadDevices</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>insertData</servlet-name>
+        <servlet-class>cl.smartgarden.web.controllers.nodemcu.insertData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>logoutController</servlet-name>
+        <servlet-class>cl.smartgarden.web.controllers.logoutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mainController</servlet-name>
+        <url-pattern>/mainController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadDevices</servlet-name>
+        <url-pattern>/loadDevices.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>insertData</servlet-name>
+        <url-pattern>/insertData.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logoutController</servlet-name>
+        <url-pattern>/logoutController.do</url-pattern>
+    </servlet-mapping>
+</web-app>
