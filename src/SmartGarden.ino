@@ -174,18 +174,18 @@ void loop() {
   mqttClient.publish("/devices/IPST_001/humSu", String(humedadSueloPorcentaje).c_str());  //Humedad de Suelo
 
   //Publicmaos los datos en el Servidor Web para su persistencia
-  //enviarDatosBBDD(temperaturaAmbiente, humedadAmbiente, humedadSueloPorcentaje, nivelLuz, nivelAguaPorcentaje);
+  enviarDatosBBDD(temperaturaAmbiente, humedadAmbiente, humedadSueloPorcentaje, nivelLuz, nivelAguaPorcentaje);
 
   //Evaluamos el nivel del agua
   if (nivelAguaPorcentaje <= 10) {
-    Serial.println("Nivel de agua muy bajo para regar");
+    Serial.println("Nivel de agua muy bajo");
     mostrarCaraTriste();
   }
 
   //Para regar, primero revisamos el nivel
   if (nivelAguaPorcentaje >= 30) {
     //Si el nivel de humedad de suelo es menor al 30% y tenemos agua en el deposito, comienza el riego
-    if (humedadSueloPorcentaje <= 30) {
+    if (humedadSueloPorcentaje <= 25) {
       Serial.println("La tierra está seca, comienza el riego automático");
 
       display.clearDisplay();
@@ -210,7 +210,8 @@ void loop() {
   }
 
   //delay(60000);  // Espera de 1 minuto por cada envío de datos
-  delay(2500);
+  delay(15000);
+  Serial.println("-------------------------");
 }
 
 //Funcion para conectar el WiFi
@@ -286,7 +287,7 @@ void enviarDatosBBDD(float tA, int hA, int hS, int nL, int nA) {
       }
       //Si no, algo falló
     } else {
-      Serial.print("Error enviado POST, código: ");
+      Serial.print("Error enviando POST, código: ");
       Serial.println(codigo_respuesta);
     }
 
