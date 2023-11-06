@@ -475,7 +475,7 @@
                                     <div class="col-sm-12 col-md-12">
                                         <div class="box dker">
                                             <div class="box-header">
-                                                <h3>Humedad Ambiente</h3>
+                                                <h3>Humedad Suelo</h3>
                                                 <small>Último registro: ${fechaAct}</small>
                                             </div>
                                             <div class="box-tool">
