@@ -2,6 +2,8 @@
 [![Badge Licencia](https://img.shields.io/badge/Licencia-MIT-yellow)](https://github.com/ElectroRabbit/smartgarden/blob/main/LICENSE)
 [![Badge en Desarrollo](https://img.shields.io/badge/Estado-En_desarrollo-green)](https://github.com/ElectroRabbit/smartgarden)
 [![Badge Ultimo Update](https://img.shields.io/badge/Ultimo_update-Noviembre-blue)](https://github.com/ElectroRabbit/smartgarden)
+[![Badge Donaciones](https://img.shields.io/badge/Kofi-Donar-violet)](https://ko-fi.com/electrorabbit)
+
 
 Este repositorio de GitHub contiene el código fuente y la documentación para un sistema de IoT (Internet de las cosas) diseñado para monitorear y automatizar el riego de plantas de hogar.
 
